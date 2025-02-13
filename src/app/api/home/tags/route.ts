@@ -7,5 +7,6 @@ export const GET = async () => {
     { headers }
   );
   const json = await response.json();
+  console.log(json)
   return NextResponse.json(json);
 }

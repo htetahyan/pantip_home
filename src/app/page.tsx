@@ -5,7 +5,6 @@ import RoomSelection from '@/components/home/RoomSelection'
 import { SkipForward } from 'lucide-react'
 import React from 'react'
 import Highlight from '@/components/home/HightLight'
-import TopicList from '@/components/home/TopicList'
 import FeaturedPosts from '@/components/home/FeaturedPosts'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
@@ -86,7 +85,7 @@ const page = () => {
             <Announce />
             <RoomSelection />
             <Highlight/>
-            <TopicList />
+           {/*  <TopicList /> */}
             <FeaturedPosts />
           </div>
           <div className='w-80 py-4 shrink-0'>
