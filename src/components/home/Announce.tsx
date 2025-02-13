@@ -25,7 +25,7 @@ const Announce = () => {
   return (
     <div className='w-full bg-[#2D2B3D] p-4'>
       <h2 className='text-lg font-semibold mb-4'>Announce</h2>
-      <div className='space-y-3'>
+      <div className='space-y-3 px-2'>
         {announcements.map((announcement, index) => (
           <Button
             key={index}
@@ -38,9 +38,9 @@ const Announce = () => {
             <div className='flex-1'>
               <div className='flex items-center gap-2'>
                 {announcement.icon && <span>{announcement.icon}</span>}
-                <span className='text-sm font-medium text-yellow-400'>{announcement.title}</span>
+                <span className='text-sm font-medium text-yellow-400'>{announcement.title.substring(0, 20)}..</span>
               </div>
-              <p className='text-sm text-gray-300 mt-1'>{announcement.description}</p>
+              <p className='text-sm text-gray-300 mt-1'>{announcement.description.substring(0, 30)}...</p>
             </div>
           </Button>
         ))}
