@@ -10,19 +10,10 @@ import {
   Users,
   Cat,
   MonitorPlay,
-  Globe2,
-  Flower2,
-  Coins,
+ 
   Camera,
-  Gamepad2,
-  Globe2 as GlobeAlt,
-  Music4,
-  Users2,
-  MonitorSmartphone,
-  Wine,
-  Heart,
-  SmilePlus,
-  Smartphone
+
+ 
 } from 'lucide-react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -38,7 +29,16 @@ const rooms = [
   { name: 'ชานเรือน', icon: Home, href: '/forum/home' },
   { name: 'ดีไอวายคลับ', icon: Users, href: '/forum/diy' },
   { name: 'ถนนนักเขียน', icon: Cat, href: '/forum/writer' },
-  { name: 'บางขุนพรหม', icon: MonitorPlay, href: '/forum/bangkhunprom' }
+  { name: 'บางขุนพรหม', icon: MonitorPlay, href: '/forum/bangkhunprom' },
+  { name: 'กินหรา', icon: Utensils, href: '/forum/food' },
+  { name: 'กล้อง', icon: Camera, href: '/forum/camera' },
+  { name: 'การ์ตูน', icon: Lightbulb, href: '/forum/cartoon' },
+  { name: 'แกลเลอรี่', icon: Image, href: '/forum/gallery' },
+  { name: 'จตุจักร', icon: Globe, href: '/forum/jatujak' }, { name: 'กินหรา', icon: Utensils, href: '/forum/food' },
+  { name: 'กล้อง', icon: Camera, href: '/forum/camera' },
+  { name: 'การ์ตูน', icon: Lightbulb, href: '/forum/cartoon' },
+  { name: 'แกลเลอรี่', icon: Image, href: '/forum/gallery' },
+  { name: 'จตุจักร', icon: Globe, href: '/forum/jatujak' },
 ]
 
 const RoomSelection = () => {
