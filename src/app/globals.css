@@ -3,22 +3,56 @@
 @tailwind utilities;
 
 :root {
-  --background: #353156;
-  --foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #222222;
+  --primary: #FF385C;
+  --primary-hover: #E31C5F;
+  --secondary: #717171;
+  --border: #DDDDDD;
+  --card: #ffffff;
+  --card-hover: #F7F7F7;
+  --font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #353156;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #222222;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+@layer base {
+  h1 {
+    @apply text-2xl font-semibold;
+  }
+  h2 {
+    @apply text-xl font-semibold;
+  }
+  h3 {
+    @apply text-lg font-semibold;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-[--primary] hover:bg-[--primary-hover] text-white rounded-lg px-6 py-3 font-medium transition-colors;
+  }
+  
+  .card {
+    @apply bg-[--card] hover:bg-[--card-hover] border border-[--border] rounded-xl p-4 transition-colors;
+  }
+
+  .nav-link {
+    @apply text-[--secondary] hover:text-[--foreground] font-medium transition-colors;
+  }
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -32,14 +66,13 @@ body {
   scrollbar-width: none;  /* Firefox */
 }
 
-/* Add these styles if not already present */
 .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @layer utilities {

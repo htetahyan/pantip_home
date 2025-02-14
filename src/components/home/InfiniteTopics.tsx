@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { MessageSquare, ThumbsUp } from 'lucide-react'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { Skeleton } from '@heroui/react'
 
 interface Topic {
   topic_id: number
@@ -76,11 +77,11 @@ const InfiniteTopics = () => {
           <div key={i} className="bg-[#1B1B2F] rounded-lg p-4">
             <div className="space-y-4">
               {[1, 2].map((j) => (
-                <div key={j} className="flex gap-3">
-                  <div className="w-16 h-16 bg-gray-800 rounded flex-shrink-0 animate-pulse"></div>
+                <div key={j} className="flex gap-4 p-4">
+                  <Skeleton className="w-16 h-16 flex-shrink-0" />
                   <div className="flex-1 space-y-2">
-                    <div className="h-4 bg-gray-800 w-3/4 rounded animate-pulse"></div>
-                    <div className="h-3 bg-gray-800 w-1/4 rounded animate-pulse"></div>
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-3 w-1/4" />
                   </div>
                 </div>
               ))}

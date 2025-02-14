@@ -1,48 +1,35 @@
 'use client'
 
-import {
-  Utensils,
-  Lightbulb,
-  Image,
-  Globe,
-  Film,
-  Home,
-  Users,
-  Cat,
-  MonitorPlay,
- 
-  Camera,
-
- 
-} from 'lucide-react'
-import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
 import { useRef } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
+import { Skeleton } from '@heroui/react'
 
-const rooms = [
-  { name: 'กินหรา', icon: Utensils, href: '/forum/food' },
-  { name: 'กล้อง', icon: Camera, href: '/forum/camera' },
-  { name: 'การ์ตูน', icon: Lightbulb, href: '/forum/cartoon' },
-  { name: 'แกลเลอรี่', icon: Image, href: '/forum/gallery' },
-  { name: 'จตุจักร', icon: Globe, href: '/forum/jatujak' },
-  { name: 'เฉลิมไทย', icon: Film, href: '/forum/chalermthai' },
-  { name: 'ชานเรือน', icon: Home, href: '/forum/home' },
-  { name: 'ดีไอวายคลับ', icon: Users, href: '/forum/diy' },
-  { name: 'ถนนนักเขียน', icon: Cat, href: '/forum/writer' },
-  { name: 'บางขุนพรหม', icon: MonitorPlay, href: '/forum/bangkhunprom' },
-  { name: 'กินหรา', icon: Utensils, href: '/forum/food' },
-  { name: 'กล้อง', icon: Camera, href: '/forum/camera' },
-  { name: 'การ์ตูน', icon: Lightbulb, href: '/forum/cartoon' },
-  { name: 'แกลเลอรี่', icon: Image, href: '/forum/gallery' },
-  { name: 'จตุจักร', icon: Globe, href: '/forum/jatujak' }, { name: 'กินหรา', icon: Utensils, href: '/forum/food' },
-  { name: 'กล้อง', icon: Camera, href: '/forum/camera' },
-  { name: 'การ์ตูน', icon: Lightbulb, href: '/forum/cartoon' },
-  { name: 'แกลเลอรี่', icon: Image, href: '/forum/gallery' },
-  { name: 'จตุจักร', icon: Globe, href: '/forum/jatujak' },
-]
+interface Room {
+  id: number
+  name: string
+  name_en: string
+  slug: string
+  description: string
+  link_url: string
+  room_icon_url: string
+  is_pinned: boolean
+  pinned_time: string | null
+  order: number | null
+}
 
 const RoomSelection = () => {
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  const { data, isLoading } = useQuery<{ success: boolean; data: Room[] }>({
+    queryKey: ['rooms'],
+    queryFn: async () => {
+      const response = await fetch('/api/home/rooms')
+      return response.json()
+    }
+  })
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -55,24 +42,41 @@ const RoomSelection = () => {
     }
   }
 
+  if (isLoading) {
+    return (
+      <div className=" z-40 bg-white border-b border-[--border] py-3 sm:py-4">
+        <div className="relative px-4 sm:px-6">
+          <div className="flex gap-6 sm:gap-8 px-8">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div key={i} className="flex flex-col items-center min-w-14 sm:min-w-16">
+                <Skeleton className="w-14 h-14 sm:w-16 sm:h-16 rounded-full mb-2" />
+                <Skeleton className="h-4 w-16" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className='bg-transparent'>
-      <div className='relative'>
+    <div className=" z-40  border-b border-[--border] py-3 sm:py-4 ">
+      <div className="relative px-4 sm:px-6">
         <button
           onClick={() => scroll('left')}
-          className='absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center text-gray-300 hover:text-white'
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white border border-[--border] rounded-full shadow-md text-[--foreground] hover:scale-110 transition-transform"
         >
-          <ChevronLeft className='w-6 h-6' />
+          <ChevronLeft className="w-4 h-4" />
         </button>
         <button
           onClick={() => scroll('right')}
-          className='absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center text-gray-300 hover:text-white'
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white border border-[--border] rounded-full shadow-md text-[--foreground] hover:scale-110 transition-transform"
         >
-          <ChevronRight className='w-6 h-6' />
+          <ChevronRight className="w-4 h-4" />
         </button>
         <div
           ref={scrollRef}
-          className='overflow-x-auto flex gap-2 scrollbar-hide px-8'
+          className="overflow-x-auto flex gap-6 sm:gap-8 scrollbar-hide px-8"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           <style jsx global>{`
@@ -80,22 +84,28 @@ const RoomSelection = () => {
               display: none;
             }
           `}</style>
-          <div className='flex gap-2'>
-            {rooms.map((room) => {
-              const Icon = room.icon
-              return (
-                <Link
-                  key={room.name}
-                  href={room.href}
-                  className='flex flex-col items-center justify-center w-[52px] h-[52px] bg-[#1B1B2F] hover:bg-[#2B2B3F] rounded-lg p-2 transition-colors flex-shrink-0'
-                >
-                  <Icon className='w-5 h-5 text-gray-300 mb-1' />
-                  <span className='text-[10px] text-gray-300 text-center leading-none'>
-                    {room.name}
-                  </span>
-                </Link>
-              )
-            })}
+          <div className="flex gap-6 sm:gap-8 px-4">
+            {data?.data.map((room) => (
+              <Link
+                key={room.id}
+                href={room.link_url}
+                className="flex flex-col items-center min-w-14 sm:min-w-16 group"
+              >
+                <div className="w-5 h-5 sm:w-6 sm:h-6 mb-1.5 sm:mb-2 flex items-center justify-center">
+                  <Image 
+                    src={room.room_icon_url} 
+                    alt={room.name}
+                    width={32}
+                    height={32}
+                    className="object-contain w-full h-full bg-black group-hover:opacity-80 transition-opacity"
+                  />
+                </div>
+                <span className="text-[10px] sm:text-xs text-[--secondary] group-hover:text-[--foreground] transition-colors whitespace-nowrap">
+                  {room.name}
+                </span>
+                <div className="h-0.5 w-full mt-1.5 sm:mt-2 bg-transparent group-hover:bg-[--foreground] transition-colors" />
+              </Link>
+            ))}
           </div>
         </div>
       </div>

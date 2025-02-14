@@ -1,5 +1,6 @@
 'use client'
 
+import { Button, Skeleton } from '@heroui/react'
 import { useQuery } from '@tanstack/react-query'
 import { MessageSquare } from 'lucide-react'
 import Image from 'next/image'
@@ -19,7 +20,8 @@ interface Post {
 
 interface PostsData {
   featured: Post[]
-  popular: Post[]
+  popular: Post[],
+  latest:Post[]
 }
 
 const FeaturedPosts = () => {
@@ -35,9 +37,9 @@ const FeaturedPosts = () => {
     return (
       <div className="space-y-4">
         {[1, 2].map((i) => (
-          <div key={i} className="bg-[#1B1B2F] p-4 rounded-lg animate-pulse">
-            <div className="h-4 bg-gray-700 rounded w-3/4 mb-2"></div>
-            <div className="h-3 bg-gray-700 rounded w-1/2"></div>
+          <div key={i} className="p-4 rounded-lg">
+            <Skeleton className="h-4 w-3/4 mb-2" />
+            <Skeleton className="h-3 w-1/2" />
           </div>
         ))}
       </div>
@@ -45,14 +47,14 @@ const FeaturedPosts = () => {
   }
 
   const renderPostList = (posts: Post[], title: string, subtitle: string) => (
-    <div className="bg-[#1B1B2F] rounded-lg overflow-hidden">
-      <div className="bg-[#2B2B3F] p-4">
+    <div className=" rounded-lg overflow-hidden">
+      <div className=" p-4">
         <h2 className="text-amber-400 font-bold">{title}</h2>
-        <p className="text-xs text-gray-400">{subtitle}</p>
+        <p className="text-xs">{subtitle}</p>
       </div>
       <div className="divide-y divide-gray-700/50">
         {posts.map((post) => (
-          <div key={post.id} className="hover:bg-[#2B2B3F]/50 transition-colors">
+          <div key={post.id} className=" transition-colors">
             <Link href={`/post/${post.id}`} className="block p-4">
               <div className="flex gap-3">
                 <div className="relative w-16 h-16 flex-shrink-0 rounded-md overflow-hidden">
@@ -64,7 +66,7 @@ const FeaturedPosts = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm text-white mb-2">{post.title}</h3>
+                  <h3 className="text-sm  mb-2">{post.title}</h3>
                   <div className="flex flex-wrap gap-2 mb-2">
                     <span className="text-xs text-blue-400">
                       #{post.room}
@@ -84,10 +86,10 @@ const FeaturedPosts = () => {
           </div>
         ))}
       </div>
-      <div className="bg-[#2B2B3F]/50 p-3 text-center">
-        <button className="text-sm text-purple-300 hover:text-purple-200">
+      <div className=" bg-black p-3 text-center">
+        <Button  className="text-sm w-full text-white bg-black">
           View all
-        </button>
+        </Button>
       </div>
     </div>
   )
@@ -103,6 +105,11 @@ const FeaturedPosts = () => {
         data?.data.popular || [],
         'Popular Posts',
         'Most engaging content'
+      )}
+      {renderPostList(
+        data?.data.latest || [],
+        'Latest Posts',
+        'Latest from our community'
       )}
     </div>
   )

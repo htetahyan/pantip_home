@@ -51,6 +51,30 @@ export const GET = async () => {
           timestamp: "2025-02-13T08:15:00Z",
           excerpt: "รวมข่าวเศรษฐกิจสำคัญประจำสัปดาห์ที่ส่งผลกระทบต่อชีวิตประจำวันของคนไทย..."
         }
+      ],
+      latest: [
+        {
+          id: 5,
+          title: "วิธีประหยัดค่าไฟฟ้าในหน้าร้อน ลดค่าไฟได้จริง!",
+          author: "savemoney",
+          room: "Home",
+          thumbnail: "https://picsum.photos/400/300?random=5",
+          comments: 324,
+          votes: 876,
+          timestamp: "2025-02-13T08:45:00Z",
+          excerpt: "รวมข่าวเศรษฐกิจสำคัญประจำสัปดาห์ที่ส่งผลกระทบต่อชีวิตประจำวันของคนไทย..."
+        },
+        {
+          id: 6,
+          title: "วิธีประหยัดค่าไฟฟ้าในหน้าร้อน ลดค่าไฟได้จริง!",
+          author: "savemoney",
+          room: "Home",
+          thumbnail: "https://picsum.photos/400/300?random=6",
+          comments: 324,
+          votes: 876,
+          timestamp: "2025-02-13T08:45:00Z",
+          excerpt: "รวมข่าวเศรษฐกิจสำคัญประจำสัปดาห์ที่ส่งผลกระทบต่อชีวิตประจำวันของคนไทย..."
+        }
       ]
     }
   });

@@ -1,52 +1,57 @@
 'use client'
-import { Button } from '@heroui/react'
-import React from 'react'
 
-const announcements = [
-  {
-    tag: "Highlight",
-    title: "วาเลนไทน์นี้...มีของขวัญให้คนที่คุณแล้วหรือยัง?",
-    description: "Pantip x Potico ชวนแลกโค้ดส่วนลด 250 บาท ใช้เพียง 99 พอยต์เท่านั้น ช้าหมดอดนะ!",
-  },
-  {
-    tag: "Podcast",
-    icon: "🎧",
-    title: "Pantip Daily Podcast",
-    description: "3 อันดับกระทู้ฮิตบนพันทิป! ประจำวันที่ 9 กุมภาพันธ์ 📱",
-  },
-  {
-    tag: "Activity",
-    title: "Pantip Point 💰",
-    description: "วาเลนไทน์สายลับ น้องเพิ่มคนไหนโดนใจคุณ? 💝",
-  }
-]
+import { Skeleton } from '@heroui/react'
+import { useQuery } from '@tanstack/react-query'
+
+interface Announcement {
+  announce_id: number
+  category_name: string
+  type: string
+  display_message: string
+  created_time: string
+}
+
+interface AnnouncementResponse {
+  success: boolean
+  data: Announcement[]
+}
 
 const Announce = () => {
-  return (
-    <div className='w-full bg-[#2D2B3D] p-4'>
-      <h2 className='text-lg font-semibold mb-4'>Announce</h2>
-      <div className='space-y-3 px-2'>
-        {announcements.map((announcement, index) => (
-          <Button
-            key={index}
-            variant='light'
-            className='w-full flex items-start gap-3 p-3 text-left bg-[#353156] hover:bg-[#3D3960] min-h-[60px]'
-          >
-            <div className='flex-shrink-0 px-2 py-1 text-xs rounded bg-orange-500 text-white uppercase'>
-              {announcement.tag}
-            </div>
-            <div className='flex-1'>
-              <div className='flex items-center gap-2'>
-                {announcement.icon && <span>{announcement.icon}</span>}
-                <span className='text-sm font-medium text-yellow-400'>{announcement.title.substring(0, 20)}..</span>
-              </div>
-              <p className='text-sm text-gray-300 mt-1'>{announcement.description.substring(0, 30)}...</p>
-            </div>
-          </Button>
+  const { data, isLoading } = useQuery<AnnouncementResponse>({
+    queryKey: ['announcements'],
+    queryFn: async () => {
+      const response = await fetch('/api/home/announcements')
+      return response.json()
+    }
+  })
+
+  if (isLoading) {
+    return (
+      <div className='space-y-2 px-6'>
+        {[1, 2, 3].map((i) => (
+          <div key={i}>
+            <Skeleton className="h-8 rounded" />
+          </div>
         ))}
       </div>
+    )
+  }
+
+  if (!data?.success || !data?.data) {
+    return null
+  }
+
+  return (
+    <div className='space-y-2 px-6'>
+      {data.data.map((announcement) => (
+        <div
+          key={announcement.announce_id}
+          className="rounded hover:bg-[#f5f5f5] transition-colors p-2"
+          dangerouslySetInnerHTML={{ __html: announcement.display_message }}
+        />
+      ))}
     </div>
   )
 }
 
-export default Announce 
+export default Announce

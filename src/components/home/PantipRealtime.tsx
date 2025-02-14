@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MessageSquare } from 'lucide-react'
+import { Skeleton } from '@heroui/react'
 
 interface Topic {
   topic_id: number
@@ -46,7 +47,7 @@ const PantipRealtime = () => {
   const { data, isLoading } = useQuery<{ data: TagData[] }>({
     queryKey: ['suggest-topics'],
     queryFn: async () => {
-      const response = await fetch('/api/home/suggest')
+      const response = await fetch('/api/home/realtime')
       return response.json()
     }
   })
@@ -55,15 +56,15 @@ const PantipRealtime = () => {
     return (
       <div className="bg-[#1B1B2F] rounded-lg overflow-hidden">
         <div className="bg-[#2B2B3F] p-4">
-          <div className="h-6 bg-gray-700 w-40 rounded animate-pulse"></div>
-        </div>
-        <div className="divide-y divide-gray-700/50">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="p-4">
-              <div className="h-4 bg-gray-700 w-3/4 rounded mb-2 animate-pulse"></div>
-              <div className="h-3 bg-gray-700 w-1/4 rounded animate-pulse"></div>
-            </div>
-          ))}
+          <Skeleton className="h-6 w-40 mb-4" />
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/4" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     )
